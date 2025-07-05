@@ -8,12 +8,15 @@ curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc \
 
 sudo apt update
 
-# Install ROS 2 control 
+# Install some ROS2 packages
 echo "[INFO] Installing dependencies..."
 sudo apt install -y \
   ros-humble-ros2-control \
   ros-humble-ros2-controllers \
-  ros-humble-gazebo-ros-pkgs 
+  ros-humble-gazebo-ros-pkgs  \
+  ros-humble-twist-mux \
+  ros-humble-teleop-twist-keyboard \
+  '~nros-humble-rqt*'
   
 # Create workspace and clone EOL gazebo-ros2-control
 echo "[INFO] Cloning gazebo_ros2_control..."
