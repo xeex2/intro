@@ -1,0 +1,297 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="inertial_macros.xacro" />
+
+    <xacro:property name="mass_scale" value="0.01" />
+    <xacro:property name="chassis_height" value="0.12" />
+    <xacro:property name="chassis_radius" value="0.12" />
+    <xacro:property name="chassis_mass" value="${0.02 * mass_scale}" />
+    <xacro:property name="wheel_radius" value="0.0425" />
+    <xacro:property name="wheel_thickness" value="0.036" />
+    <xacro:property name="wheel_mass" value="${0.1 * mass_scale}" />
+    <xacro:property name="wheel_offset_x" value="0" />
+    <!-- <xacro:property name="wheel_offset_y" value="${chassis_radius + (wheel_thickness / 2.0)}" /> -->
+    <xacro:property name="wheel_offset_y" value="${0.275/2}" />
+    <xacro:property name="wheel_offset_z" value="0" />
+    <xacro:property name="caster_wheel_radius" value="0.02" />
+    <xacro:property name="caster_wheel_mass" value="${0.02 * mass_scale}" />
+    <xacro:property name="caster_wheel_offset_x" value="0.075" />
+    <xacro:property name="caster_wheel_offset_z" value="${wheel_offset_z - wheel_radius + caster_wheel_radius}" />
+    <xacro:property name="lidar_mass" value="${0.1 * mass_scale}" />
+    <xacro:property name="lidar_radius" value="0.05" />
+    <xacro:property name="lidar_height" value="0.04" />
+    <xacro:property name="lidar_offset_x" value="0" />
+    <xacro:property name="lidar_offset_z" value="${chassis_height+(lidar_height/2)}" />
+
+
+    <material name="white">
+        <color rgba="1 1 1 1" />
+    </material>
+
+    <material name="orange">
+        <color rgba="1 0.3 0.1 1" />
+    </material>
+
+    <material name="blue">
+        <color rgba="0.2 0.2 1 1" />
+    </material>
+
+    <material name="black">
+        <color rgba="0 0 0 1" />
+    </material>
+
+    <material name="red">
+        <color rgba="1 0 0 1" />
+    </material>
+
+    <!-- BASE LINK -->
+
+    <link name="base_link">
+    </link>
+
+    <!-- BASE_FOOTPRINT LINK -->
+
+    <joint name="base_footprint_joint" type="fixed">
+        <parent link="base_link" />
+        <child link="base_footprint" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+
+    <link name="base_footprint">
+    </link>
+
+
+    <!-- CHASSIS LINK -->
+
+    <joint name="chassis_joint" type="fixed">
+        <parent link="base_link" />
+        <child link="chassis" />
+        <origin xyz="${-wheel_offset_x} 0 ${-wheel_offset_z}" />
+    </joint>
+
+    <link name="chassis">
+        <visual>
+            <origin xyz="0 0 ${chassis_height/2}" />
+            <geometry>
+                <cylinder radius="${chassis_radius}" length="${chassis_height}" />
+            </geometry>
+            <material name="white" />
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 ${chassis_height/2}" />
+            <geometry>
+                <cylinder radius="${chassis_radius}" length="${chassis_height}" />
+            </geometry>
+        </collision>
+
+        <xacro:inertial_cylinder mass="${chassis_mass}" radius="${chassis_radius}" length="${chassis_height}">
+            <origin xyz="0 0 ${chassis_height/2}" rpy="0 0 0" />
+        </xacro:inertial_cylinder>
+    </link>
+
+    <gazebo reference="chassis">
+        <material>Gazebo/White</material>
+    </gazebo>
+
+    <!-- LEFT WHEEL LINK -->
+
+    <joint name="left_wheel_joint" type="continuous">
+        <parent link="base_link" />
+        <child link="left_wheel" />
+        <origin xyz="0 ${wheel_offset_y} 0" rpy="-${pi/2} 0 0" />
+        <axis xyz="0 0 1" />
+    </joint>
+
+    <link name="left_wheel">
+        <visual>
+            <geometry>
+                <cylinder radius="${wheel_radius}" length="${wheel_thickness}" />
+            </geometry>
+            <material name="blue" />
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="${wheel_radius}" />
+                 <!-- <cylinder radius="${wheel_radius}" length="${wheel_thickness}" /> -->
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="${wheel_mass}" length="${wheel_thickness}" radius="${wheel_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </xacro:inertial_cylinder>
+    </link>
+
+    <gazebo reference="left_wheel">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+
+    <!-- RIGHT WHEEL LINK -->
+
+    <joint name="right_wheel_joint" type="continuous">
+        <parent link="base_link" />
+        <child link="right_wheel" />
+        <origin xyz="0 ${-wheel_offset_y} 0" rpy="${pi/2} 0 0" />
+        <axis xyz="0 0 -1" />
+    </joint>
+
+    <link name="right_wheel">
+        <visual>
+            <geometry>
+                <cylinder radius="${wheel_radius}" length="${wheel_thickness}" />
+            </geometry>
+            <material name="blue" />
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="${wheel_radius}" />
+                 <!-- <cylinder radius="${wheel_radius}" length="${wheel_thickness}" /> -->
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="${wheel_mass}" length="${wheel_thickness}" radius="${wheel_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </xacro:inertial_cylinder>
+    </link>
+
+    <gazebo reference="right_wheel">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+
+    <!-- FRONT CASTER WHEEL LINK -->
+
+    <joint name="front_caster_wheel_joint" type="fixed">
+        <parent link="chassis" />
+        <child link="front_caster_wheel" />
+        <origin xyz="${caster_wheel_offset_x} 0 ${caster_wheel_offset_z}" />
+    </joint>
+
+
+    <link name="front_caster_wheel">
+        <visual>
+            <geometry>
+                <sphere radius="${caster_wheel_radius}" />
+            </geometry>
+            <material name="white" />
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="${caster_wheel_radius}" />
+            </geometry>
+        </collision>
+        <xacro:inertial_sphere mass="${caster_wheel_mass}" radius="${caster_wheel_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </xacro:inertial_sphere>
+    </link>
+
+    <gazebo reference="front_caster_wheel">
+        <material>Gazebo/White</material>
+        <mu1 value="0.0001" />
+        <mu2 value="0.0001" />
+    </gazebo>
+
+    <!-- BACK CASTER WHEEL LINK -->
+
+    <joint name="back_caster_wheel_joint" type="fixed">
+        <parent link="chassis" />
+        <child link="back_caster_wheel" />
+        <origin xyz="${-caster_wheel_offset_x} 0 ${caster_wheel_offset_z}" />
+    </joint>
+
+
+    <link name="back_caster_wheel">
+        <visual>
+            <geometry>
+                <sphere radius="${caster_wheel_radius}" />
+            </geometry>
+            <material name="white" />
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="${caster_wheel_radius}" />
+            </geometry>
+        </collision>
+        <xacro:inertial_sphere mass="${caster_wheel_mass}" radius="${caster_wheel_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </xacro:inertial_sphere>
+    </link>
+
+    <gazebo reference="back_caster_wheel">
+        <material>Gazebo/White</material>
+        <mu1 value="0.0001" />
+        <mu2 value="0.0001" />
+    </gazebo>
+
+    <!-- LIDAR -->
+
+    <joint name="laser_joint" type="fixed">
+        <parent link="chassis" />
+        <child link="laser_frame" />
+        <origin xyz="${lidar_offset_x} 0 ${lidar_offset_z}" rpy="0 0 0" />
+    </joint>
+
+    <link name="laser_frame">
+        <visual>
+            <origin xyz="0 0 0" />
+            <geometry>
+                <cylinder radius="${lidar_radius}" length="${lidar_height}" />
+            </geometry>
+            <material name="red" />
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 0" />
+            <geometry>
+                <cylinder radius="${lidar_radius}" length="${lidar_height}" />
+            </geometry>
+        </collision>
+
+        <xacro:inertial_cylinder mass="${lidar_mass}" radius="${lidar_radius}" length="${lidar_height}">
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </xacro:inertial_cylinder>
+    </link>
+
+    <gazebo reference="laser_frame">
+        <material>Gazebo/Red</material>
+
+        <sensor name="laser" type="ray">
+            <pose>0 0 0 0 0 0</pose>
+            <!-- <visualize>true</visualize> -->
+            <visualize>false</visualize>
+            <update_rate>10</update_rate>
+
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>360</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-${pi}</min_angle>
+                        <max_angle>${pi}</max_angle>
+                    </horizontal>
+                </scan>
+
+                <range>
+                    <min>0.3</min>
+                    <max>12</max>
+                    <resolution>0.01</resolution>
+                </range>
+            </ray>
+
+            <plugin name="laser_controller" filename="libgazebo_ros_ray_sensor.so">
+                <!-- topic to publish to -->
+                <ros>
+                    <argument>--ros-args</argument>
+                    <argument>--remap</argument>
+                    <argument>~/out:=scan</argument>
+                </ros>
+
+                <output_type>sensor_msgs/LaserScan</output_type>
+                <frame_name>laser_frame</frame_name>
+            </plugin>
+
+        </sensor>
+
+    </gazebo>
+
+</robot>
