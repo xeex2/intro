@@ -127,7 +127,7 @@ rqt_graph
 ```
 Once done close with Ctrl+C
 
-# Turtelsim Demo
+# Turtlesim Demo
 run 
 ```
 ros2 run turtlesim turtlesim_node
