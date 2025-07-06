@@ -1,10 +1,21 @@
 # Introduction
-For this demo session we shall use Docker, as it is nice and modular, and its installation process is simple. It is also possible not to use Hyper-V, crucial for users who do not use Windows Pro Editions. 
+You can use ROS2 Humble on [Ubuntu 22.04 or Windows ](https://docs.ros.org/en/humble/Installation.html) 
+
+For this demo session we shall use an Ubuntu 22.04 container in Docker, as it is nice and modular, and its installation process is simple. It is also possible not to use Hyper-V, crucial for users who do not use Windows Pro Editions. 
 
 You can use a terminal app of your choosing, Windows Powershell will suffice. Windows Terminal App by Microsoft is recommended.
 
+# Caveats
+
+* This was tested on Docker Desktop for windows only. If you're on another platform you can install the packages manually: 
+  ros-humble-twist-mux ros-humble-teleop-twist-keyboard ros-humble-teleop-twist-joy ros-humble-slam-toolbox ros-humble-navigation2 ros-humble-nav2-bringup ros-humble-xacro ros-humble-ros2control ros-humble-ros2-controllers ros-humble-gazebo-ros-pkgs ros-humble-gazebo-ros2-control
+
+* Gazebo Classic went EOL in January 2025, so ros-humble-gazebo-ros2-control and ros-humble-gazebo-ros2-pkgs cannot be installed using apt. Instead, you'll need to clone their repo's into your workspace alongside the other packages. For docker desktop on windows, only gazebo-ros2-control was problematic, so the bash script handles that. 
+
+* Although the demo focuses on docker, native installation might be better due to less overhead. It's way faster, that's for sure. 
+
 # Downloads and Installations
-download and install [VcXsrv (~50MB)]( https://sourceforge.net/projects/vcxsrv/)
+download and install [VcXsrv (~50MB)](https://sourceforge.net/projects/vcxsrv/)
 
 download and install [WSL (~300MB)](https://github.com/microsoft/WSL/releases/download/2.5.9/wsl.2.5.9.0.x64.msi)
 
@@ -21,7 +32,6 @@ On completion, click close and restart
 # Docker Verification
 
 On reboot run docker, skip account creation
-
 
 To verify docker is working well open terminal and run 
 ```
