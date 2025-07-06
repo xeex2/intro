@@ -72,7 +72,7 @@ then run
 ```
 nano ~/.bashrc
 ```
-then paste the following line at the **end** of the file 
+then paste the following line at the **end** of the file, use Ctrl+End to skip to end, then move the cursor using the arrow keys
 ```
 export DISPLAY=<your ip>:0.0
 ``` 
@@ -156,8 +156,31 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
 Click to focus the terminal window where teleop_twist_keyboard was launched, and press any of these keys `u i o j k l m , .` to drive the robot. 
 
+## For mapping phase
+run 
+```
+ros2 launch jkl online_async_launch.py slam_params_file:=./src/jkl/config/mapper_params_online_async.yaml use_sim_time:=true
+```
+With the teleop_twist_keyboard terminal in focus use `u i o j k l m , .` to drive the bot around until a satisfactory map is shown in rviz
+
+Open slam toolbox panel in rviz and fill the input boxes with a desired name. Click save map and serialize map. Four map files will be saved in current directory
+
+## For navigation phase
+Kill online_async then run  
+```
+ros2 launch jkl localization_launch.py map:=<path_to_your_map>.yaml use_sim_time:=true
+```
+To set/change pose estimate, you can use rviz
+in another terminal run 
+```
+ros2 launch jkl navigation_launch.py map_subscribe_transient_local:=true params_file:=./src/jkl/config/nav2_params.yaml use_sim_time:=true
+```
+Use rviz to set waypoints either one by one or all points at once. Navigate through poses creates one path across all waypoints while navigate to waypoints moves the robot to each point one-by-one
+
+When you're done, kill every terminal process using Ctrl+C
+
 # Other Resources
-* ROS introduction book provided in repo
 * ROS introduction course [here](https://www.youtube.com/watch?v=0aPbWsyENA8&list=PLLSegLrePWgJudpPUof4-nVFHGkB62Izy)
 * Full robot building guide including simulation [here](https://www.youtube.com/watch?v=OWeLUSzxMsw&list=PLunhqkrRNRhYAffV8JDiFOatQXuU-NnxT)
+* ROS introduction book provided [in repo](ROS_2_from_Scratch_-_Edouard_Renard.pdf)
 
