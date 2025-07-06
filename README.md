@@ -8,8 +8,9 @@ You can use a terminal app of your choosing, Windows Powershell will suffice. Wi
 # Caveats
 
 * This was tested on Docker Desktop for windows only. If you're on another platform you can install the packages manually: 
-  ros-humble-twist-mux ros-humble-teleop-twist-keyboard ros-humble-teleop-twist-joy ros-humble-slam-toolbox ros-humble-navigation2 ros-humble-nav2-bringup ros-humble-xacro ros-humble-ros2control ros-humble-ros2-controllers ros-humble-gazebo-ros-pkgs ros-humble-gazebo-ros2-control
-
+```
+ros-humble-twist-mux ros-humble-teleop-twist-keyboard ros-humble-teleop-twist-joy ros-humble-slam-toolbox ros-humble-navigation2 ros-humble-nav2-bringup ros-humble-xacro ros-humble-ros2control ros-humble-ros2-controllers # ros-humble-gazebo-ros-pkgs ros-humble-gazebo-ros2-control
+```
 * Gazebo Classic went EOL in January 2025, so ros-humble-gazebo-ros2-control and ros-humble-gazebo-ros2-pkgs cannot be installed using apt. Instead, you'll need to clone their repo's into your workspace alongside the other packages. For docker desktop on windows, only gazebo-ros2-control was problematic, so the bash script handles that. 
 
 * Although the demo focuses on docker, native installation might be better due to less overhead. It's way faster, that's for sure. 
@@ -195,6 +196,7 @@ When you're done, kill every terminal process using Ctrl+C
 
 # Other Resources
 * ROS introduction course [here](https://www.youtube.com/watch?v=0aPbWsyENA8&list=PLLSegLrePWgJudpPUof4-nVFHGkB62Izy)
+* A great channel for [ROS2 Jazzy](https://www.youtube.com/@automaticaddison)
 * Full robot building guide including simulation [here](https://www.youtube.com/watch?v=OWeLUSzxMsw&list=PLunhqkrRNRhYAffV8JDiFOatQXuU-NnxT)
 * ROS introduction book provided [in repo](ROS_2_from_Scratch_-_Edouard_Renard.pdf)
 

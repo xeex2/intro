@@ -10,6 +10,7 @@ sudo apt update
 
 # Install some ROS2 packages
 echo "[INFO] Installing dependencies..."
+# ros-humble-gazebo-ros-pkgs might be problematic
 sudo apt install -y \
   ros-humble-ros2-control \
   ros-humble-ros2-controllers \
