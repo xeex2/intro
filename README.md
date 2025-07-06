@@ -1,7 +1,7 @@
 # Introduction
 For this demo session we shall use Docker, as it is nice and modular, and its installation process is simple. It is also possible not to use Hyper-V, crucial for users who do not use Windows Pro Editions. 
 
-You can use a terminal app of your choosing. Windows Terminal App by Microsoft is recommended.
+You can use a terminal app of your choosing, Windows Powershell will suffice. Windows Terminal App by Microsoft is recommended.
 
 # Downloads and Installations
 download and install [VcXsrv (~50MB)]( https://sourceforge.net/projects/vcxsrv/)
@@ -86,19 +86,21 @@ Press Ctrl+S then Ctrl+X
 
 Next run 
 ```
+cd /home/rdj-2024
 git clone https://github.com/xeex2/intro.git
 ```
 
 Once finished:
 
-cd into src then
 ```
 cd intro/src 
 ./init.bash
 ```
 
-Then 
+Once that is complete
 ```
+source ~/.bashrc
+cd ..
 colcon build --symlink-install
 ```
 This should build the new workspace. Build it once using the same command. 
@@ -130,10 +132,7 @@ run
 ros2 run turtlesim turtlesim_node
 ```
 and in another terminal run 
-```
-ros2 run turtlesim turtlesim_node
-```
-and in another
+
 ```
 ros2 run turtlesim turtle_teleop_key
 ``` 
@@ -151,6 +150,11 @@ launch the simulation
 ```
 ros2 launch jkl launch_sim.launch.py use_sim_time:=true world:=./src/jkl/worlds/dojo2024
 ```
+then in another terminal
+```
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
+```
+Click to focus the terminal window where teleop_twist_keyboard was launched, and press any of these keys `u i o j k l m , .` to drive the robot. 
 
 # Other Resources
 * ROS introduction book provided in repo
