@@ -94,6 +94,7 @@ Once finished:
 
 ```
 cd intro/src 
+chmod +x init.bash
 ./init.bash
 ```
 
@@ -145,8 +146,11 @@ Click to focus the terminal window where `turtle_teleop_key` was launched and pr
 Once done close using Ctrl+C
 
 # Gazebo Demo
-
-launch the simulation 
+in one terminal cd into intro then launch rviz
+```
+rviz2 -d ./src/comp.rviz
+```
+in another launch the simulation, make sure you are at the into directory
 ```
 ros2 launch jkl launch_sim.launch.py use_sim_time:=true world:=./src/jkl/worlds/dojo2024
 ```
@@ -157,7 +161,7 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 Click to focus the terminal window where teleop_twist_keyboard was launched, and press any of these keys `u i o j k l m , .` to drive the robot. 
 
 ## For mapping phase
-run 
+run this, make sure you are in the intro directory
 ```
 ros2 launch jkl online_async_launch.py slam_params_file:=./src/jkl/config/mapper_params_online_async.yaml use_sim_time:=true
 ```
@@ -171,7 +175,7 @@ Kill online_async then run
 ros2 launch jkl localization_launch.py map:=<path_to_your_map>.yaml use_sim_time:=true
 ```
 To set/change pose estimate, you can use rviz
-in another terminal run 
+in another terminal run this, make sure you are in the intro directory
 ```
 ros2 launch jkl navigation_launch.py map_subscribe_transient_local:=true params_file:=./src/jkl/config/nav2_params.yaml use_sim_time:=true
 ```
