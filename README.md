@@ -15,7 +15,8 @@ ros-humble-ros2control ros-humble-ros2-controllers # ros-humble-gazebo-ros-pkgs 
 ```
 * Gazebo Classic went EOL in January 2025, so ros-humble-gazebo-ros2-control and ros-humble-gazebo-ros2-pkgs cannot be installed using apt. Instead, you'll need to clone their repo's into your workspace alongside the other packages. For docker desktop on windows, only gazebo-ros2-control was problematic, so the bash script handles that. 
 
-* Although the demo focuses on docker, native installation (or the docker native engine for linux) is be better due to less overhead, and it's way faster, that's for sure. 
+* Although the demo focuses on docker, native installation (or the docker native engine for linux) is be better due to less overhead, and it's way faster, that's for sure.
+* You may preter the official ros2 docker images, see [docker docs](https://docs.docker.com/guides/ros2/), [ros docs](https://docs.ros.org/en/humble/How-To-Guides/Run-2-nodes-in-single-or-separate-docker-containers.html) and [other docker images](https://hub.docker.com/_/ros/)
 
 # Downloads and Installations
 download and install [VcXsrv (~50MB)](https://sourceforge.net/projects/vcxsrv/)
@@ -200,5 +201,6 @@ When you're done, kill every terminal process using Ctrl+C
 * ROS introduction course [here](https://www.youtube.com/watch?v=0aPbWsyENA8&list=PLLSegLrePWgJudpPUof4-nVFHGkB62Izy)
 * A great channel for [ROS2 Jazzy](https://www.youtube.com/@automaticaddison)
 * Full robot building guide including simulation [here](https://www.youtube.com/watch?v=OWeLUSzxMsw&list=PLunhqkrRNRhYAffV8JDiFOatQXuU-NnxT)
+* ROS2 development [in Docker](https://docs.docker.com/guides/ros2/)
 * ROS introduction book provided [in repo](ROS_2_from_Scratch_-_Edouard_Renard.pdf)
 
