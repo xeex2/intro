@@ -22,7 +22,7 @@ sudo apt install -y \
 # Create workspace and clone EOL gazebo-ros2-control
 echo "[INFO] Cloning gazebo_ros2_control..."
 
-git clone -b humble https://github.com/ros-simulation/gazebo_ros2_control.git
+git clone --depth 1 -b humble https://github.com/ros-simulation/gazebo_ros2_control.git
 
 # Step 4: Build the workspace
 echo "[INFO] Building workspace..."
