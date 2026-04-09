@@ -15,7 +15,7 @@ ros-humble-ros2control ros-humble-ros2-controllers # ros-humble-gazebo-ros-pkgs 
 ```
 * Gazebo Classic went EOL in January 2025, so ros-humble-gazebo-ros2-control and ros-humble-gazebo-ros2-pkgs cannot be installed using apt. Instead, you'll need to clone their repo's into your workspace alongside the other packages. For docker desktop on windows, only gazebo-ros2-control was problematic, so the bash script handles that. 
 
-* Although the demo focuses on docker, native installation might be better due to less overhead. It's way faster, that's for sure. 
+* Although the demo focuses on docker, native installation (or the docker native engine for linux) is be better due to less overhead, and it's way faster, that's for sure. 
 
 # Downloads and Installations
 download and install [VcXsrv (~50MB)](https://sourceforge.net/projects/vcxsrv/)
