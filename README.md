@@ -13,7 +13,7 @@ ros-humble-twist-mux ros-humble-teleop-twist-keyboard ros-humble-teleop-twist-jo
 ros-humble-slam-toolbox ros-humble-navigation2 ros-humble-nav2-bringup ros-humble-xacro \ 
 ros-humble-ros2control ros-humble-ros2-controllers # ros-humble-gazebo-ros-pkgs ros-humble-gazebo-ros2-control
 ```
-* Gazebo Classic went EOL in January 2025, so ros-humble-gazebo-ros2-control and ros-humble-gazebo-ros2-pkgs cannot be installed using apt. Instead, you'll need to clone their repo's into your workspace alongside the other packages. For docker desktop on windows, only gazebo-ros2-control was problematic, so the bash script handles that. 
+* Gazebo Classic went EOL in January 2025, so ros-humble-gazebo-ros2-control and ros-humble-gazebo-ros2-pkgs cannot be installed using apt. Instead, they'll need to be cloned into your workspace alongside the other packages. For docker desktop on windows, only gazebo-ros2-control was problematic, so that has been added. 
 
 * Although the demo focuses on docker, native installation (or the docker native engine for linux) is be better due to less overhead, and it's way faster, that's for sure.
 * You may preter the official ros2 docker images, see [docker docs](https://docs.docker.com/guides/ros2/), [ros docs](https://docs.ros.org/en/humble/How-To-Guides/Run-2-nodes-in-single-or-separate-docker-containers.html) and [other docker images](https://hub.docker.com/_/ros/)

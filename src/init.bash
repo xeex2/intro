@@ -19,18 +19,13 @@ sudo apt install -y \
   ros-humble-teleop-twist-keyboard \
   '~nros-humble-rqt*'
   
-# Create workspace and clone EOL gazebo-ros2-control
-echo "[INFO] Cloning gazebo_ros2_control..."
-
-git clone --depth 1 -b humble https://github.com/ros-simulation/gazebo_ros2_control.git
-
-# Step 4: Build the workspace
+# Build the workspace
 echo "[INFO] Building workspace..."
 cd ..
 source /opt/ros/humble/setup.bash
 colcon build --symlink-install
 
-# Step 5: Source the workspace automatically
+# Source the workspace automatically
 echo "source ${PWD}/install/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 echo "[INFO] Setup complete."
