@@ -7,9 +7,9 @@ You can use a terminal app of your choosing, Windows Powershell will suffice. Wi
 
 # Caveats
 
-* This was tested on Docker Desktop for windows, Docker engine installed in WSL, and Docker engine on Ubuntu 22.04. You may prefer to run it on "native" WSL, or native Ubuntu 22.04. 
+* This was tested on Docker engine installed in WSL, and Docker engine on Ubuntu 22.04. You may prefer to run it directly on WSL, or native Ubuntu 22.04. 
 * Instructions are also provided for native Ubuntu 22.04, and Ubuntu 22.04 distro on WSL
-* You may preter the official ros2 docker images, see [docker docs](https://docs.docker.com/guides/ros2/), [ros docs](https://docs.ros.org/en/humble/How-To-Guides/Run-2-nodes-in-single-or-separate-docker-containers.html) and [other docker images](https://hub.docker.com/_/ros/)
+* You may prefer the official ros2 docker images, see [docker docs](https://docs.docker.com/guides/ros2/), [ros docs](https://docs.ros.org/en/humble/How-To-Guides/Run-2-nodes-in-single-or-separate-docker-containers.html) and [other docker images](https://hub.docker.com/_/ros/)
 * Gazebo Classic went EOL in January 2025, so ros-humble-gazebo-ros2-control and ros-humble-gazebo-ros2-pkgs cannot be installed using apt. Instead, they need to be manually cloned into the workspace (humble branch) alongside the other packages. During testing, only gazebo-ros2-control was problematic, so that has been added. 
 
 # Environment setup
