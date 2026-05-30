@@ -3,156 +3,153 @@ You can use ROS2 Humble on [Ubuntu 22.04 or Windows ](https://docs.ros.org/en/hu
 
 For this demo session we shall use an Ubuntu 22.04 container in Docker, as it is nice and modular, and its installation process is simple. It is also possible not to use Hyper-V, crucial for users who do not use Windows Pro Editions. 
 
-You can use a terminal app of your choosing, Windows Powershell will suffice. Windows Terminal App by Microsoft is recommended.
+You can use a terminal app of your choosing, Windows Powershell will suffice. Windows Terminal App by Microsoft (downloaded from Microsoft store) is recommended.
 
 # Caveats
 
-* This was tested on Docker Desktop for windows only. If you're on another platform you can install the packages manually: 
-```
-ros-humble-twist-mux ros-humble-teleop-twist-keyboard ros-humble-teleop-twist-joy \ 
-ros-humble-slam-toolbox ros-humble-navigation2 ros-humble-nav2-bringup ros-humble-xacro \ 
-ros-humble-ros2control ros-humble-ros2-controllers # ros-humble-gazebo-ros-pkgs ros-humble-gazebo-ros2-control
-```
-* Gazebo Classic went EOL in January 2025, so ros-humble-gazebo-ros2-control and ros-humble-gazebo-ros2-pkgs cannot be installed using apt. Instead, they'll need to be cloned into your workspace alongside the other packages. For docker desktop on windows, only gazebo-ros2-control was problematic, so that has been added. 
-
-* Although the demo focuses on docker, native installation (or the docker native engine for linux) is be better due to less overhead, and it's way faster, that's for sure.
+* This was tested on Docker Desktop for windows, Docker engine installed in WSL, and Docker engine on Ubuntu 22.04. You may prefer to run it on "native" WSL, or native Ubuntu 22.04. 
+* Instructions are also provided for native Ubuntu 22.04, and Ubuntu 22.04 distro on WSL
 * You may preter the official ros2 docker images, see [docker docs](https://docs.docker.com/guides/ros2/), [ros docs](https://docs.ros.org/en/humble/How-To-Guides/Run-2-nodes-in-single-or-separate-docker-containers.html) and [other docker images](https://hub.docker.com/_/ros/)
+* Gazebo Classic went EOL in January 2025, so ros-humble-gazebo-ros2-control and ros-humble-gazebo-ros2-pkgs cannot be installed using apt. Instead, they need to be manually cloned into the workspace (humble branch) alongside the other packages. During testing, only gazebo-ros2-control was problematic, so that has been added. 
 
-# Downloads and Installations
-download and install [VcXsrv (~50MB)](https://sourceforge.net/projects/vcxsrv/)
-
+# Environment setup
+## Docker
+### Downloads and Installations
 download and install [WSL (~300MB)](https://github.com/microsoft/WSL/releases/download/2.5.9/wsl.2.5.9.0.x64.msi)
 
 Once installation is complete, open wsl settings app > networking tab: change networking mode to `nat` network 
 
-<!-- reboot needed but will do in next step -->
 
-download and install [docker desktop (~600MB)](https://docs.docker.com/desktop/)
+On completion, click close and restart your machine
 
-Make sure you check `Use WSL 2 instead of Hyper-V` option in the installation dialog
+### Verification
 
-On completion, click close and restart
+On reboot run "Ubuntu" (i.e. the WSL instance)
 
-# Docker Verification
-
-On reboot run docker, skip account creation
-
-To verify docker is working well open terminal and run 
-```
+To verify docker is working well run this on the terminal
+```bash
 docker run hello-world
 ```
-It should pull an image then show a message confirming success. 
+It should pull a small docker image then show a message confirming success. 
 
+### Clone Intro and build the container
 Still on terminal run 
-```
-docker pull codewithlennylen/rdj-2024
-```
-It will download a large image file (~2GB) that contains ROS2 humble and dependencies
-
-
-Once finished, go to images tab. Press the play icon on the `codewithlennylen/rdj-2024` image. Click the optional settings and assign a convenient name. Then click run. A container should be created and run.
-
-<!-- docker run -it --name rdj-2024 --privileged --network host --env DISPLAY=$DISPLAY codewithlennylen rdj-2024 -->
-
-# Gui Setup
-So far Docker containers will run, but graphical applications will crash at launch. These steps will fix that
-## VcXsrv Setup
-
-
-* launch Xlaunch.exe app
-* choose multiple windows, click next
-* choose no client, click next
-* leave defaults (clipboard, Primary Selection, Native opengl), click next
-* click save configuration, choose a convenient directory like Desktop
-* Click finish
-
-A server should be created using the config you've just created. To start the VcXsrv server with the same settings again, just run the config file you saved earlier. 
-
-
-## Container Setup
-
-open terminal and run 
-```
-ipconfig
-``` 
-and look for the `Ethernet adapter vEthernet (WSL)`
-copy the ipv4 address e.g. `172.30.176.1`
-start the container and run 
-```
-sudo su
+```bash
+git clone --depth 1 https://github.com/xeex2/intro.git
+cd intro/src
 ```
 
-then run 
-```
-nano ~/.bashrc
-```
-then paste the following line at the **end** of the file, use Ctrl+End to skip to end, then move the cursor using the arrow keys
-```
-export DISPLAY=<your ip>:0.0
-``` 
-an example is 
-```
-export DISPLAY=172.30.176.1:0.0
-```
-Press Ctrl+S then Ctrl+X
-
-# Cloning the Intro Repo
-
-Next run 
-```
-cd /home/rdj-2024
-git clone https://github.com/xeex2/intro.git
+Download the dependencies (~1GB) and build the docker image. Be please be patient until this command completes
+```bash
+docker build -t pancake_img .
 ```
 
-Once finished:
+once done
+```bash
+cd ..
+```
 
+
+### Create the docker container
+create container with this (WSL)
+```bash
+docker run -it -w /home/pancake --name=pancake_cont --user=pancake --net=host --ipc=host --env DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix/ pancake_img
 ```
-cd intro/src 
-chmod +x init.bash
-./init.bash
+
+create container with this (Ubuntu)
+```bash
+docker run -it -w /home/pancake --name=pancake_cont --user=pancake --net=host --ipc=host --device /dev/dri --env DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix/ pancake_img
 ```
+The `--env ...`, `-v /tmp/ ...` and `--device ...` arguments should pass gui from the docker container to the host. 
+
+
+to start an existing container
+```bash
+docker start -ai pancake_cont
+```
+
+to attach your terminal onto a running container
+```bash
+docker attach pancake_cont
+```
+
+to create a new terminal on a running container
+```bash
+docker exec -it pancake_cont bash
+```
+
+## Native Ubuntu 22.04 or Ubuntu 22.04 distro on WSL
+In case docker is not your thing, you can use the ROS environment installed on your platform. The official guide for installing ROS2 humble is [here](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html). Then run this bash snippet to install the dependencies 
+```bash
+sudo apt-get update && \
+sudo apt-get install -y --no-install-recommends \
+    nano sudo \
+    x11-apps python3-pip \
+    ros-humble-demo-nodes-cpp \
+    ros-humble-teleop-twist-keyboard \
+    ros-humble-xacro \
+    ros-humble-twist-mux \
+    ros-humble-robot-localization \
+    ros-humble-ros2-control \
+    ros-humble-ros2-controllers \
+    ros-humble-rplidar-ros \
+    ros-humble-slam-toolbox \
+    ros-humble-navigation2 \
+    ros-humble-nav2-bringup \
+    ros-humble-rviz2 \
+    gazebo libgazebo-dev ros-humble-gazebo-ros-pkgs
+```
+
+then set up the workspace
+```bash
+git clone --depth 1 https://github.com/xeex2/intro.git
+cd intro
+```
+
+# Building the Intro Repo
 
 Once that is complete
-```
-source ~/.bashrc
-cd ..
+```bash
 colcon build --symlink-install
+echo "source ${PWD}/install/setup.bash" >> ~/.bashrc
+source ~/.bashrc
 ```
-This should build the new workspace. Build it once using the same command. 
+This should build the new workspace
 
-then 
-```
+whenever you add a new file or package you need to run
+```bash
+colcon build --symlink-install
 source install/setup.bash
 ```
 
 # Talker-Listener Demo
 
 run 
-```
+```bash
 ros2 run demo_nodes_cpp talker
 ```
 and in another terminal run 
-```
+```bash
 ros2 run demo_nodes_cpp listener
 ```
 and in another run 
-```
+```bash
 rqt_graph
 ```
 Once done close with Ctrl+C
 
 # Turtlesim Demo
 run 
-```
+```bash
 ros2 run turtlesim turtlesim_node
 ```
 and in another terminal run 
 
-```
+```bash
 ros2 run turtlesim turtle_teleop_key
 ``` 
 and in another run 
-```
+```bash
 rqt_graph
 ```
 Click to focus the terminal window where `turtle_teleop_key` was launched and press the arrow keys. The robot should move. 
@@ -161,22 +158,22 @@ Once done close using Ctrl+C
 
 # Gazebo Demo
 in one terminal cd into intro then launch rviz
-```
+```bash
 rviz2 -d ./src/comp.rviz
 ```
 in another launch the simulation, make sure you are at the into directory
-```
+```bash
 ros2 launch jkl launch_sim.launch.py use_sim_time:=true world:=./src/jkl/worlds/dojo2024
 ```
 then in another terminal
-```
+```bash
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
 Click to focus the terminal window where teleop_twist_keyboard was launched, and press any of these keys `u i o j k l m , .` to drive the robot. 
 
 ## For mapping phase
 run this, make sure you are in the intro directory
-```
+```bash
 ros2 launch jkl online_async_launch.py slam_params_file:=./src/jkl/config/mapper_params_online_async.yaml use_sim_time:=true
 ```
 With the teleop_twist_keyboard terminal in focus use `u i o j k l m , .` to drive the bot around until a satisfactory map is shown in rviz
@@ -185,12 +182,12 @@ Open slam toolbox panel in rviz and fill the input boxes with a desired name. Cl
 
 ## For navigation phase
 Kill online_async then run  
-```
+```bash
 ros2 launch jkl localization_launch.py map:=<path_to_your_map>.yaml use_sim_time:=true
 ```
 To set/change pose estimate, you can use rviz
 in another terminal run this, make sure you are in the intro directory
-```
+```bash
 ros2 launch jkl navigation_launch.py map_subscribe_transient_local:=true params_file:=./src/jkl/config/nav2_params.yaml use_sim_time:=true
 ```
 Use rviz to set waypoints either one by one or all points at once. Navigate through poses creates one path across all waypoints while navigate to waypoints moves the robot to each point one-by-one
