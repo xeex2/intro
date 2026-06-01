@@ -7,8 +7,7 @@ You can use a terminal app of your choosing, Windows Powershell will suffice. Wi
 
 # Caveats
 
-* This was tested on Docker engine installed in WSL, and Docker engine on Ubuntu 22.04. You may prefer to run it directly on WSL, or native Ubuntu 22.04. 
-* Instructions are also provided for native Ubuntu 22.04, and Ubuntu 22.04 distro on WSL
+* This was tested on Docker engine installed in WSL, and Docker engine on Ubuntu 22.04. You may prefer to skip docker and run it directly on WSL, or native Ubuntu 22.04 in which case instructions are also provided for native Ubuntu 22.04, and Ubuntu 22.04 distro on WSL
 * You may prefer the official ros2 docker images, see [docker docs](https://docs.docker.com/guides/ros2/), [ros docs](https://docs.ros.org/en/humble/How-To-Guides/Run-2-nodes-in-single-or-separate-docker-containers.html) and [other docker images](https://hub.docker.com/_/ros/)
 * Gazebo Classic went EOL in January 2025, so ros-humble-gazebo-ros2-control and ros-humble-gazebo-ros2-pkgs cannot be installed using apt. Instead, they need to be manually cloned into the workspace (humble branch) alongside the other packages. During testing, only gazebo-ros2-control was problematic, so that has been added. 
 
@@ -19,12 +18,12 @@ download and install [WSL (~300MB)](https://github.com/microsoft/WSL/releases/do
 
 Once installation is complete, open wsl settings app > networking tab: change networking mode to `nat` network 
 
-
 On completion, click close and restart your machine
 
-### Verification
+On reboot run "Ubuntu" (i.e. the WSL distro)
+Then follow the respective guide for your distro to [install docker engine](https://docs.docker.com/engine/install/)
 
-On reboot run "Ubuntu" (i.e. the WSL instance)
+### Verification
 
 To verify docker is working well run this on the terminal
 ```bash
