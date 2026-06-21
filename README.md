@@ -57,10 +57,10 @@ docker run -it -w /home/pancake --name=pancake_cont --user=pancake --net=host --
 
 create container with this (Ubuntu)
 ```bash
-docker run -it -w /home/pancake --name=pancake_cont --user=pancake --net=host --ipc=host --device /dev/dri --env DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix/ --device=/dev/ttyACM0:/dev/ttyACM0 pancake_img
+docker run -it -w /home/pancake --name=pancake_cont --user=pancake --net=host --ipc=host --device /dev/dri --env DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix/ -v /dev:/dev --device-cgroup-rule='c *:* rmw' pancake_img
 ```
 The `--env ...`, `-v /tmp/ ...` and `--device ...` arguments should pass gui from the docker container to the host. 
-The `--device` arg passes the USB microcontroller. Make sure you edit that field to the correct path
+The `-v /dev:/dev` and `--device-cgroup-rule` args pass USB devices.
 
 to start an existing container
 ```bash
